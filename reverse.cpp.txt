@@ -1,0 +1,67 @@
+#include <iostream>
+#include <algorithm>
+#include <cctype>
+#include <string>
+using namespace std;
+
+int main()
+{
+    string input;
+
+    cout << "Enter a string or numbers: ";
+    getline(cin, input);
+
+    bool isNumber = true;
+
+    // Check if input is only numbers (and spaces)
+    for (char ch : input)
+    {
+        if (!isdigit(ch) && ch != ' ')
+        {
+            isNumber = false;
+            break;
+        }
+    }
+
+    if (isNumber)
+    {
+        // ---- Numbers Case ----
+        int arr[100], n = 0, num = 0;
+
+        for (int i = 0; i < input.length(); i++)
+        {
+            if (isdigit(input[i]))
+            {
+                num = num * 10 + (input[i] - '0');
+            }
+            else if (input[i] == ' ')
+            {
+                arr[n++] = num;
+                num = 0;
+            }
+        }
+        arr[n++] = num; // last number
+
+        sort(arr, arr + n);
+
+        cout << "\nNumbers in ascending order: ";
+        for (int i = 0; i < n; i++)
+        {
+            cout << arr[i] << " ";
+        }
+    }
+    else
+    {
+        // ---- String Case ----
+        for (char &ch : input)
+        {
+            ch = tolower(ch); // convert to lowercase
+        }
+
+        reverse(input.begin(), input.end());
+
+        cout << "\nReversed lowercase string: " << input;
+    }
+
+    return 0;
+}
